@@ -6,7 +6,9 @@ const LINKING_ERROR =
   '- You rebuilt the app after installing the package\n' +
   '- You are not using Expo managed workflow\n';
 
-const DoNotDisturb = NativeModules.DoNotDisturb  ? NativeModules.DoNotDisturb  : new Proxy(
+const DoNotDisturb = NativeModules.DoNotDisturb
+  ? NativeModules.DoNotDisturb
+  : new Proxy(
       {},
       {
         get() {
@@ -15,6 +17,18 @@ const DoNotDisturb = NativeModules.DoNotDisturb  ? NativeModules.DoNotDisturb  :
       }
     );
 
-export function multiply(a: number, b: number): Promise<number> {
-  return DoNotDisturb.multiply(a, b);
+export function isDoNotDisturbModeOn(): Promise<boolean> {
+  if (Platform.OS === 'android') {
+    return DoNotDisturb.isDoNotDisturbModeOn();
+  } else {
+    throw Error('Platform not supported');
+  }
+}
+
+export function openDoNotDisturbSettings(): Promise<boolean> {
+  if (Platform.OS === 'android') {
+    return DoNotDisturb.openDoNotDisturbSettings();
+  } else {
+    throw Error('Platform not supported');
+  }
 }

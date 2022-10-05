@@ -1,5 +1,7 @@
 # react-native-do-not-disturb
+
 Enable and disable DND mode on Android devices.
+
 ## Installation
 
 ```sh
@@ -9,11 +11,17 @@ npm install react-native-do-not-disturb
 ## Usage
 
 ```js
-import { multiply } from "react-native-do-not-disturb";
-
+import {
+  isDoNotDisturbModeOn,
+  openDoNotDisturbSettings,
+} from 'react-native-do-not-disturb';
 // ...
 
-const result = await multiply(3, 7);
+const isDNDModeOn = await isDoNotDisturbModeOn();
+console.log('DND', 'Is DND mode on: ' + isDNDModeOn);
+if (!isDNDModeOn) {
+  openDoNotDisturbSettings();
+}
 ```
 
 ## Contributing

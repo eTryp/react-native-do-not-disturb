@@ -1,18 +1,29 @@
 import * as React from 'react';
-
-import { StyleSheet, View, Text } from 'react-native';
-import { multiply } from 'react-native-do-not-disturb';
+import { Button, StyleSheet, ToastAndroid, View } from 'react-native';
+import {
+  isDoNotDisturbModeOn,
+  openDoNotDisturbSettings,
+} from 'react-native-do-not-disturb';
 
 export default function App() {
-  const [result, setResult] = React.useState<number | undefined>();
-
-  React.useEffect(() => {
-    multiply(3, 7).then(setResult);
-  }, []);
-
   return (
     <View style={styles.container}>
-      <Text>Result: {result}</Text>
+      <Button
+        title="Open DND settings"
+        onPress={async () => {
+          openDoNotDisturbSettings();
+        }}
+      />
+      <Button
+        title="Is DND mode on?"
+        onPress={async () => {
+          const isDNDModeOn = await isDoNotDisturbModeOn();
+          ToastAndroid.show(
+            'DND mode enabled: ' + isDNDModeOn,
+            ToastAndroid.SHORT
+          );
+        }}
+      />
     </View>
   );
 }
@@ -22,10 +33,5 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  box: {
-    width: 60,
-    height: 60,
-    marginVertical: 20,
   },
 });
