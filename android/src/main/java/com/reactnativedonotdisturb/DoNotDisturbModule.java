@@ -32,28 +32,26 @@ public class DoNotDisturbModule extends ReactContextBaseJavaModule {
         return NAME;
     }
 
-  @ReactMethod
-  public void isDoNotDisturbModeOn(Promise promise) {
-    NotificationManager notificationManager = (NotificationManager)
-      this.mReactContext.getSystemService(Context.NOTIFICATION_SERVICE);
+    @ReactMethod
+    public void isDoNotDisturbModeOn(Promise promise) {
+        NotificationManager notificationManager = (NotificationManager)
+          this.mReactContext.getSystemService(Context.NOTIFICATION_SERVICE);
 
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-      promise.resolve(notificationManager.isNotificationPolicyAccessGranted());
-    } else {
-      promise.resolve(true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+          promise.resolve(notificationManager.isNotificationPolicyAccessGranted());
+        } else {
+          promise.resolve(true);
+        }
     }
-  }
 
-  @ReactMethod
-  public void openDoNotDisturbSettings(Promise promise) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-      Intent intent = new Intent(android.provider.Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
-      Objects.requireNonNull(getCurrentActivity()).startActivity(intent);
-      promise.resolve(true);
-    } else {
-      promise.resolve(false);
+    @ReactMethod
+    public void openDoNotDisturbSettings(Promise promise) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+          Intent intent = new Intent(android.provider.Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
+          Objects.requireNonNull(getCurrentActivity()).startActivity(intent);
+          promise.resolve(true);
+        } else {
+          promise.resolve(false);
+      }
     }
-  }
-
-
 }
